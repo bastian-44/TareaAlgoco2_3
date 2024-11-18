@@ -1,0 +1,12 @@
+# ninja log v6
+6	446	7534831500904124	build.ninja	ee250defac4878f
+8489	9768	7534821911967887	TareaAlgoco2_3.exe	fc37039a0d6793b1
+14	8724	7534830316837542	CMakeFiles/TareaAlgoco2_3.dir/main.cpp.obj	1491948ce784b13d
+24	3902	7534776813925446	CMakeFiles/TareaAlgoco2_3.dir/BruteForce.cpp.obj	6d363e72ac2e06a4
+37	3952	7534776814055441	CMakeFiles/TareaAlgoco2_3.dir/DynamicProgramming.cpp.obj	c55ec5a7d470f4f9
+12	1404	7534779626825141	CMakeFiles/TareaAlgoco2_3.dir/cost_functions.cpp.obj	2e6654358e84c961
+13	1800	7534831566193943	TareaAlgoco2_3.exe	fa49e5e3b0362b2f
+11	8862	7534856968320491	CMakeFiles/TareaAlgoco2_3.dir/main.cpp.obj	1491948ce784b13d
+8864	10355	7534857056840932	TareaAlgoco2_3.exe	fa49e5e3b0362b2f
+11	9029	7534857764598926	CMakeFiles/TareaAlgoco2_3.dir/main.cpp.obj	1491948ce784b13d
+9030	10430	7534857854788452	TareaAlgoco2_3.exe	fa49e5e3b0362b2f
