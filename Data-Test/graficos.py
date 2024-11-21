@@ -1,61 +1,60 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from matplotlib.cm import ScalarMappable
-from matplotlib.colors import Normalize
-# Leer el CSV generado
-archivo_csv = "datasets_resultados_DP.csv"
-#archivo_csv = "datasets_resultados_BF.csv"
-df = pd.read_csv(archivo_csv)
 
-# Configurar estilo de gráficos
+# Configuración inicial para gráficos
 sns.set(style="whitegrid")
 
-# 1. Tiempo de ejecución vs. Tamaño de cadena
+# Carga de datos
+data = pd.read_csv('datasets_resultados_BF.csv')  # Cambia 'datos.csv' al nombre de tu archivo CSV
+
+# Convertir tiempo y CPU a float por si están en otro formato
+data['tiempo'] = pd.to_numeric(data['tiempo'], errors='coerce')
+data['uso_cpu_total_final'] = pd.to_numeric(data['uso_cpu_total_final'], errors='coerce')
+
+# Gráfico 1: Relación entre tamaño y tiempo de ejecución
 plt.figure(figsize=(10, 6))
-sns.lineplot(data=df, x="tamano", y="tiempo", marker="o", label="Tiempo de ejecución (s)")
-plt.title("Tiempo de ejecución vs. Tamaño de cadena")
-plt.xlabel("Tamaño de cadena")
-plt.ylabel("Tiempo de ejecución (segundos)")
-plt.legend()
-plt.savefig("tiempo_vs_tamano.png")
-plt.close()
+sns.lineplot(data=data, x='tamano', y='tiempo', hue='patron', marker='o')
+plt.title('Relación entre Tamaño y Tiempo de Ejecución')
+plt.xlabel('Tamaño')
+plt.ylabel('Tiempo de Ejecución (segundos)')
+plt.legend(title='Patrón')
+plt.savefig("tiempo_vs_tamano_BF.png")
 
-# 2. Uso de memoria física vs. Tamaño de cadena
+# Gráfico 2: Uso de memoria física por tamaño
 plt.figure(figsize=(10, 6))
-sns.lineplot(data=df, x="tamano", y="memoria_fisica_usada_por_proceso_kb", marker="o", label="Memoria física (KB)")
-plt.title("Uso de memoria física vs. Tamaño de cadena")
-plt.xlabel("Tamaño de cadena")
-plt.ylabel("Memoria física usada (KB)")
-plt.legend()
-plt.savefig("memoria_vs_tamano.png")
-plt.close()
+sns.barplot(data=data, x='tamano', y='memoria_fisica_usada_por_proceso_kb', hue='patron')
+plt.title('Memoria Física Usada por Tamaño')
+plt.xlabel('Tamaño')
+plt.ylabel('Memoria Física (KB)')
+plt.legend(title='Patrón')
+plt.savefig('memoria_vs_tamano_BF')
 
-# 3. Distancia mínima de edición vs. Tamaño de cadena
+
+# Gráfico 3: Uso de CPU final según el patrón y tamaño
 plt.figure(figsize=(10, 6))
-sns.lineplot(data=df, x="tamano", y="distancia", marker="o", label="Distancia mínima de edición")
-plt.title("Distancia mínima de edición vs. Tamaño de cadena")
-plt.xlabel("Tamaño de cadena")
-plt.ylabel("Distancia mínima de edición")
-plt.legend()
-plt.savefig("distancia_vs_tamano.png")
-plt.close()
+sns.boxplot(data=data, x='patron', y='uso_cpu_total_final', hue='tamano')
+plt.title('Uso de CPU Total Final por Patrón y Tamaño')
+plt.xlabel('Patrón')
+plt.ylabel('Uso de CPU (%)')
+plt.legend(title='Tamaño', loc='upper left')
+plt.savefig("cpu_vs_tamano_BF.png")
 
-uso_cpu_promedio = df.groupby("tamano")["uso_cpu_total_final"].mean()
-
-# Crear el gráfico de barras
+# Gráfico 4: Distancia promedio por patrón
 plt.figure(figsize=(10, 6))
-uso_cpu_promedio.plot(kind="bar", color="skyblue", edgecolor="black")
+sns.barplot(data=data, x='patron', y='distancia')
+plt.title('Distancia Promedio por Patrón')
+plt.xlabel('Patrón')
+plt.ylabel('Distancia')
+plt.savefig("distancia_promedio_FB.png")
 
-# Configurar el gráfico
-plt.title("Uso Promedio de CPU por Tamaño de Cadena", fontsize=14)
-plt.xlabel("Tamaño de Cadena", fontsize=12)
-plt.ylabel("Uso de CPU (%)", fontsize=12)
-plt.xticks(rotation=45, fontsize=10)
-plt.grid(axis="y", linestyle="--", alpha=0.7)
 
-# Guardar el gráfico
-plt.savefig("cpu_vs_tamano_barras.png", dpi=300)
-plt.close()
+# Gráfico 5: Comparación de memoria física y virtual
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=data, x='memoria_fisica_usada_por_proceso_kb', y='memoria_virtual_usada_por_proceso_kb', hue='tamano', style='patron')
+plt.title('Comparación de Memoria Física y Virtual Usada')
+plt.xlabel('Memoria Física (KB)')
+plt.ylabel('Memoria Virtual (KB)')
+plt.legend(title='Tamaño')
+plt.savefig("fisica_vs_virtua_BF.png")
 
-print("Gráficos generados y guardados como imágenes.")
